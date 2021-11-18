@@ -2,7 +2,7 @@
 
 mtcars <- datasets::mtcars
 
-bank <- read.csv("Demo 1_ Identifying Data Structures.csv")
+bank <- read.csv("D:\\GitHub\\R\\Codes\\3.0 dplyr_visualization\\Demo 1_ Identifying Data Structures.csv")
 
 ## barplot
 
@@ -57,17 +57,34 @@ per_lab
 pie(slices, labels = per_lab, main = "Screen time")
 
 
+#3d
+
+library(plotrix)
+slices <- c(10, 12,4, 16, 8)
+pct <- round(slices/sum(slices)*100)
+
+lbls <- paste(c("US", "UK", "Australia","Germany", "France")," ", pct, "%", sep="")
+pie3D(slices,labels=lbls,explode=0.0,main="3D Pie Chart")
 
 #HISTOGRAM
+mtcars$mpg #miles per gallon data 
+hist(mtcars$mpg)
+# Colored Histogram with 
+##Different Number of Bins
+hist(mtcars$mpg, breaks=8,col="darkgreen")
+
+
 hist(bank$age, main = "Horse Power Histogram")
 
 hist(bank$age, main = "Horse Power Histogram", breaks = 10)
 
+head(bank)
+colnames(bank)[1] <- "age"
 # density plot
 plot(density(bank$age))
 
 # density plot solid
-polygon(density(bank$age), col = "red", border = "green")
+polygon(density(bank$age), col = "yellow", border = "green")
 
 
 # LIne Plot
@@ -123,9 +140,16 @@ car_graph + geom_boxplot(aes(y = mpg, group = cyl))
 
 mtcars$cyl_cat <- as.character(mtcars$cyl)
 
-car_graph + geom_boxplot(aes(y = mpg, x = cyl_cat))
+car_graph + geom_boxplot(aes(y = mpg, x = mtcars$cyl_cat))
 
 car_graph + geom_point(aes(x = mpg, y = hp, color = "blue")) + 
         geom_point(aes(x = mpg, y = disp, color = "red"))
 
-car_graph + geom_point(aes(x = mpg, y = hp, color = cyl_cat))
+car_graph + geom_point(aes(x = mpg, y = hp, color = mtcars$cyl_cat))
+
+# Graphic outputs
+
+jpeg("myplot.jpg")
+counts <- table(mtcars$gear)
+barplot(counts)
+dev.off()
